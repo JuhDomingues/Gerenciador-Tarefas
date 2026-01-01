@@ -1,5 +1,5 @@
 // =================== CONFIGURAÇÃO ===================
-const API_URL = 'http://localhost:3000/api'; // Altere para seu servidor
+const API_URL = 'https://gerenciador-tarefas-one-puce.vercel.app/api'; // Servidor Vercel
 
 // =================== ESTADO DE AUTENTICAÇÃO ===================
 let authState = {
