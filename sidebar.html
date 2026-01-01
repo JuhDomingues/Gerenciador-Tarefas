@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de Tarefas</title>
+  <link rel="stylesheet" href="sidebar-styles.css">
+</head>
+<body>
+  <div id="app">
+    <div class="header-stats">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h1>📊 Produtividade</h1>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button id="btnSync" class="btn-primary" style="font-size: 12px; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer;">🔄 Sync</button>
+          <div style="position: relative;">
+            <button id="btnProfile" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 12px;">
+              <span style="width: 24px; height: 24px; background: #667eea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;" id="userInitial">U</span>
+              <span id="userName" style="color: #333; font-weight: 500;">Usuário</span>
+              <span style="color: #999;">▼</span>
+            </button>
+            <div id="profileMenu" style="display: none; position: absolute; top: 100%; right: 0; margin-top: 5px; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
+              <div style="padding: 12px; border-bottom: 1px solid #eee;">
+                <div style="font-weight: 600; color: #333; font-size: 13px;" id="profileMenuName">Usuário</div>
+                <div style="color: #666; font-size: 11px; margin-top: 2px;" id="profileMenuEmail">email@exemplo.com</div>
+              </div>
+              <button id="btnLogout" style="width: 100%; padding: 10px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 13px; color: #d32f2f; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                <span>🚪</span>
+                <span>Sair da Conta</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card stat-total">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="totalTasks">0</div>
+        </div>
+        <div class="stat-card stat-completed">
+          <div class="stat-label">Feitas</div>
+          <div class="stat-value" id="completedTasks">0</div>
+        </div>
+        <div class="stat-card stat-pending">
+          <div class="stat-label">Pendentes</div>
+          <div class="stat-value" id="pendingTasks">0</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <span>Geral</span>
+          <span class="progress-percentage" id="overallProgress">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="clientes" id="btnTabClientes">👥 Clientes</button>
+      <button class="tab-btn" data-tab="urgencias" id="btnTabUrgencias">🔥 Urgência</button>
+      <button class="tab-btn" data-tab="arquivadas" id="btnTabArquivadas">📦 Arquivadas</button>
+    </div>
+
+    <div class="tab-content active" id="tab-clientes">
+      <div class="section">
+        <div class="section-header">
+          <h2>Clientes</h2>
+          <button class="btn-add" id="btnAddClient">+</button>
+        </div>
+        
+        <div class="add-client-form hidden" id="addClientForm">
+          <input type="text" id="newClientName" placeholder="Nome do cliente" />
+          <div class="form-actions">
+            <button class="btn-primary" id="btnSaveClient">Adicionar</button>
+            <button class="btn-secondary" id="btnCancelClient">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="clients-list" id="clientsList">
+          <p class="empty-message">Nenhum cliente</p>
+        </div>
+      </div>
+
+      <div class="section" id="tasksSection">
+        <div id="noClientSelected" class="empty-state">
+          <div class="empty-icon">👤</div>
+          <p>Selecione um cliente</p>
+        </div>
+
+        <div id="clientTasksView" class="hidden">
+          <div class="client-header">
+            <div>
+              <h2 id="selectedClientName"></h2>
+              <div class="client-progress-inline">
+                <span id="clientStats"></span>
+                <span class="progress-value-small" id="clientProgress">0%</span>
+              </div>
+            </div>
+            <button class="btn-add" id="btnShowAddTask">+</button>
+          </div>
+
+          <div class="add-task-form hidden" id="addTaskForm">
+            <input type="text" id="newTaskText" placeholder="Nome da tarefa..." />
+            <div class="form-field">
+              <label>Data e Hora</label>
+              <input type="datetime-local" id="newTaskDeadline" />
+            </div>
+            <div class="form-field">
+              <label>Urgência</label>
+              <select id="newTaskUrgency">
+                <option value="baixa">🟢 Baixa</option>
+                <option value="media" selected>🟡 Média</option>
+                <option value="alta">🔴 Alta</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button class="btn-primary" id="btnAddTask">Adicionar</button>
+              <button class="btn-secondary" id="btnCancelTask">Cancelar</button>
+            </div>
+          </div>
+
+          <div class="tasks-list" id="tasksList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-urgencias">
+      <div class="section">
+        <h2>🔥 Por Urgência</h2>
+        <div class="urgency-list" id="urgencyList">
+          <div class="empty-state">
+            <div class="empty-icon">📅</div>
+            <p>Nenhuma tarefa pendente</p>
+            <small>Você está em dia!</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-arquivadas">
+      <div class="section">
+        <h2>📦 Tarefas Arquivadas</h2>
+        <div class="archived-list" id="archivedList">
+          <div class="empty-state">
+            <div class="empty-icon">📦</div>
+            <p>Nenhuma tarefa arquivada</p>
+            <small>Tarefas concluídas e arquivadas aparecerão aqui</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de Tarefas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header com Estatísticas -->
+    <div class="header-stats">
+      <h1>📊 Minha Produtividade</h1>
+      <div class="stats-grid">
+        <div class="stat-card stat-total">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="totalTasks">0</div>
+        </div>
+        <div class="stat-card stat-completed">
+          <div class="stat-label">Concluídas</div>
+          <div class="stat-value" id="completedTasks">0</div>
+        </div>
+        <div class="stat-card stat-pending">
+          <div class="stat-label">Pendentes</div>
+          <div class="stat-value" id="pendingTasks">0</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-header">
+          <span>Produtividade Geral</span>
+          <span class="progress-percentage" id="overallProgress">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="clientes" id="btnTabClientes">👥 Por Cliente</button>
+      <button class="tab-btn" data-tab="urgencias" id="btnTabUrgencias">🔥 Por Urgência</button>
+    </div>
+
+    <!-- Tab Clientes -->
+    <div class="tab-content active" id="tab-clientes">
+      <div class="two-columns">
+        <!-- Lista de Clientes -->
+        <div class="clients-panel">
+          <div class="panel-header">
+            <h2>Clientes</h2>
+            <button class="btn-add" id="btnAddClient">+</button>
+          </div>
+          
+          <div class="add-client-form hidden" id="addClientForm">
+            <input type="text" id="newClientName" placeholder="Nome do cliente" />
+            <div class="form-actions">
+              <button class="btn-primary" id="btnSaveClient">Adicionar</button>
+              <button class="btn-secondary" id="btnCancelClient">Cancelar</button>
+            </div>
+          </div>
+
+          <div class="clients-list" id="clientsList">
+            <p class="empty-message">Nenhum cliente cadastrado</p>
+          </div>
+        </div>
+
+        <!-- Tarefas do Cliente -->
+        <div class="tasks-panel">
+          <div id="noClientSelected" class="empty-state">
+            <div class="empty-icon">👤</div>
+            <p>Selecione um cliente para ver as tarefas</p>
+          </div>
+
+          <div id="clientTasksView" class="hidden">
+            <div class="client-header">
+              <div>
+                <h2 id="selectedClientName"></h2>
+                <p class="client-stats" id="clientStats"></p>
+              </div>
+              <div class="client-progress">
+                <div class="progress-value" id="clientProgress">0%</div>
+                <div class="progress-label">progresso</div>
+              </div>
+            </div>
+
+            <div class="add-task-form">
+              <input type="text" id="newTaskText" placeholder="Nova tarefa..." />
+              <div class="task-form-row">
+                <div class="form-field">
+                  <label>Data e Hora</label>
+                  <input type="datetime-local" id="newTaskDeadline" />
+                </div>
+                <div class="form-field">
+                  <label>Urgência</label>
+                  <select id="newTaskUrgency">
+                    <option value="baixa">🟢 Baixa</option>
+                    <option value="media" selected>🟡 Média</option>
+                    <option value="alta">🔴 Alta</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn-primary btn-full" id="btnAddTask">+ Adicionar Tarefa</button>
+            </div>
+
+            <div class="tasks-list" id="tasksList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Urgências -->
+    <div class="tab-content" id="tab-urgencias">
+      <div class="urgency-panel">
+        <h2>🔥 Tarefas por Urgência</h2>
+        <div class="urgency-list" id="urgencyList">
+          <div class="empty-state">
+            <div class="empty-icon">📅</div>
+            <p>Nenhuma tarefa pendente</p>
+            <small>Parabéns! Você está em dia.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

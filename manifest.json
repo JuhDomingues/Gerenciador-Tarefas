@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Gerenciador de Tarefas - Marketing Pro",
+  "version": "1.0.0",
+  "description": "Gerencie tarefas por cliente com controle de urgência e produtividade",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
+    "default_title": "Gerenciador de Tarefas"
+  },
+  "sidebar_action": {
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
+    "default_title": "Tarefas",
+    "default_panel": "sidebar.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*",
+    "https://localhost:3000/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
